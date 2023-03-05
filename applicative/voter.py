@@ -24,3 +24,13 @@ class Voter:
     @staticmethod
     def from_id(_id):
         return Voter(**service.voter(_id))
+    
+    @staticmethod
+    def from_fb_id(fb_id):
+        res = service.voter_from_fb_id(fb_id)
+        if res:
+            return Voter(**res[0].__dict__)
+    
+    @staticmethod
+    def new(fb_id, name, profil_pic):
+        return Voter(**service.voter_create(fb_id, name, profil_pic))

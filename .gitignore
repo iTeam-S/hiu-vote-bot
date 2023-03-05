@@ -4,3 +4,5 @@ __pycache__/
 ngrok
 ngrok.exe
 _db.json
+.vscode/
+
