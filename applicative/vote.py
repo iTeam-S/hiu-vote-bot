@@ -1,5 +1,6 @@
 import service
 
+
 class Vote:
     def __init__(self, voter, participant, comment=""):
         self.voter = voter
@@ -8,7 +9,7 @@ class Vote:
 
     def __repr__(self) -> str:
         return f"<Vote>{self.__dict__}"
-    
+
     def can_vote(self):
         if self.voter.vote is None:
             return True

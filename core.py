@@ -9,10 +9,7 @@ def before_receive(sender_id, **ext):
     chat.send_action(sender_id, Action.typing_on)
     return True
 
+
 @ampalibe.after_receive()
 def after_receive(sender_id, **ext):
     chat.send_action(sender_id, Action.typing_off)
-
-
-
-    

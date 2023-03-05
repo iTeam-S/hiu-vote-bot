@@ -11,14 +11,14 @@ class ParticipantView(Participant):
     @staticmethod
     def from_all():
         return [ParticipantView(**p.__dict__) for p in Participant.get_full_list()]
-    
+
     @staticmethod
     def from_name(name):
         return [ParticipantView(**p.__dict__) for p in Participant.from_name_like(name)]
 
     def toElement(self):
         return Element(
-            title=self.univ_name,
+            title=f"{self.univ_name} ({self.city})",
             subtitle=self.full_univ_name,
             image_url=self.logo_url,
             buttons=[
@@ -36,6 +36,6 @@ class ParticipantView(Participant):
                     type=Type.postback,
                     title="Mombamomba ℹ️",
                     payload=Payload("/description", participant_id=self.id),
-                )
-            ]
+                ),
+            ],
         )
