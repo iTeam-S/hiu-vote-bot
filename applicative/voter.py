@@ -15,11 +15,8 @@ class Voter:
 
     @property
     def vote(self):
-        try:
-            srv = service.voter_vote(self)
-        except pocketbase.utils.ClientResponseError:
-            return None
-        return Participant(**srv)
+        srv = service.voter_vote(self)
+        return Participant(**srv) if srv else None
 
     @staticmethod
     def from_id(_id):

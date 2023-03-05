@@ -34,7 +34,12 @@ def recherche(sender_id, **ext):
 def act_recherche(sender_id, cmd, **ext):
     query.set_action(sender_id, None)
     elems = [p.toElement() for p in ParticipantView.from_name(cmd)]
-    chat.send_generic_template(sender_id, elems, next="Tohiny")
+    if elems:
+        chat.send_generic_template(sender_id, elems, next="Tohiny")
+    else:
+        chat.send_text(
+            sender_id, "Tsy nahitana ny mpandray anjara misy anarana: " + cmd
+        )
 
 
 @ampalibe.command("/apropos")

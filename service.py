@@ -52,10 +52,12 @@ def voter_from_fb_id(fb_id):
 
 
 def voter_vote(voter):
-    res = client.collection("vote").get_full_list(
+    res = client.collection("vote").get_list(
         query_params={"filter": f'voter = "{voter.id}"', "expand": "participant"}
     )
-    return _struct(getattr(res[0], "expand")["participant"])
+    return (
+        _struct(getattr(res.items[0], "expand")["participant"]) if res.items else None
+    )
 
 
 def voter_create(fb_id, name, profil_pic):

@@ -2,6 +2,8 @@ import ampalibe
 from controllers import chat
 from ampalibe.messenger import Action
 
+chat.get_started("/get_started")
+
 
 @ampalibe.before_receive()
 def before_receive(sender_id, **ext):
