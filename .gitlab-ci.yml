@@ -1,0 +1,47 @@
+stages:
+  - test
+  - build
+  - deploy
+
+.build-image: &build_image
+  image: docker:latest
+  services:
+    - docker:18.09-dind
+  before_script:
+    - docker system prune -f
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE --push .
+  after_script:
+    - docker logout $CI_REGISTRY
+
+build-job:  
+  <<: *build_image
+  stage: build
+  rules: 
+  - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  script:
+    - docker run -d -v "${PWD}:/usr/src/app" -p 4555:4555 $CI_REGISTRY_IMAGE
+    - lsof -i:4555 || { echo tsy mpah ; docker ps -a ; exit 1 ; }
+
+lint-test-job:
+  stage: test
+  rules: 
+  - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  before_script:
+    - apt-get update -y
+    - apt-get install python3-pip -y
+  script:
+    - python3 -m pip install flake8
+    - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+deploy-job:     
+  stage: deploy 
+  environment: production
+  script:
+    - apt-get update -y -qq
+    - apt-get install -y -qq sshpass
+    - export SSHPASS=$PASSWORD_SERVER
+    - sshpass -e ssh -t -oStrictHostKeyChecking=no "$USER_SERVER@$HOST_SERVER" 'docker restart voting-bot'
+  only:
+    - main
+
