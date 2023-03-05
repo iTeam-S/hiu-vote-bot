@@ -45,7 +45,8 @@ deploy-job:
       sshpass -e ssh -t -oStrictHostKeyChecking=no "$USER_SERVER@$HOST_SERVER" <<EOF
         cd voting-bot
         git pull
-        docker restart voting-bot
+        docker rm -f voting-bot
+        docker run --name voting-bot -d -p 4555:4555 voting-bot-image
       EOF
   only:
     - main
