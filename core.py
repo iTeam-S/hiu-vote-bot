@@ -1,19 +1,18 @@
 import ampalibe
 from controllers import chat
+from ampalibe.messenger import Action
 
-# create a get started option to get permission of user.
-# chat.get_started('/get_started')
 
 @ampalibe.before_receive()
 def before_receive(sender_id, **ext):
-    # do something before receive message
-    
+    chat.send_action(sender_id, Action.mark_seen)
+    chat.send_action(sender_id, Action.typing_on)
     return True
 
 @ampalibe.after_receive()
 def after_receive(sender_id, **ext):
-    # do something after receive message
-    pass
+    chat.send_action(sender_id, Action.typing_off)
+
 
 
     

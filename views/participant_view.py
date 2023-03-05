@@ -21,17 +21,17 @@ class ParticipantView(Participant):
                 Button(
                     type=Type.postback,
                     title="Alaiko 🔥 ...",
-                    payload=Payload("/vote", participant=self),
+                    payload=Payload("/vote", participant_id=self.id),
                 ),
                 Button(
                     type=Type.postback,
                     title="Zakanay 🦾 ...",
-                    payload=Payload("/contre_vote", participant=self),
+                    payload=Payload("/contre_vote", participant_id=self.id),
                 ),
                 Button(
                     type=Type.postback,
                     title="Mombamomba ℹ️",
-                    payload=Payload("/description", participant=self),
+                    payload=Payload("/description", participant_id=self.id),
                 )
             ]
         )

@@ -3,15 +3,21 @@ import service
 
 class Participant:
 
-    def __init__(self, id, full_univ_name, univ_name, logo_url, **kwargs):
+    def __init__(self, id, full_univ_name, univ_name, logo_url, description, **kwargs):
         self.id = id 
         self.full_univ_name = full_univ_name
         self.univ_name = univ_name
         self.logo_url = logo_url
+        self.description = description
 
 
     def __repr__(self) -> str:
         return  f"<Participant>{self.__dict__}"
+    
+
+    @staticmethod
+    def from_id(_id):
+        return Participant(**service.participant(_id))
     
 
     @staticmethod

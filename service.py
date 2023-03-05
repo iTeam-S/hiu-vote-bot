@@ -3,8 +3,7 @@ from pocketbase import PocketBase
 
 client = PocketBase(env.get("POCKET_URL", ""))
 
-# Get all services
-print(client.admins.auth_with_password(env.get("ADMIN_EMAIL", ""), env.get("ADMIN_PASSWORD", "")))
+client.admins.auth_with_password(env.get("ADMIN_EMAIL", ""), env.get("ADMIN_PASSWORD", ""))
 
 def _struct(data):
         data.logo_url = client.get_file_url(data, data.logo, {})
@@ -19,7 +18,7 @@ def participant_vote(participant):
     ))
 
 def participant(_id):
-    return client.collection("participant").get_one(_id).__dict__
+    return _struct(client.collection("participant").get_one(_id))
 
 def voter(_id):
     return client.collection("voter").get_one(_id).__dict__
