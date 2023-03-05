@@ -13,7 +13,14 @@ def _struct(data):
 
 
 def participants():
-    return list(map(_struct, client.collection("participant").get_full_list()))
+    return list(
+        map(
+            _struct,
+            client.collection("participant").get_full_list(
+                query_params={"sort": "univ_name"}
+            ),
+        )
+    )
 
 
 def participants_from_name_like(name):
