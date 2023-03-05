@@ -41,7 +41,12 @@ deploy-job:
     - apt-get update -y -qq
     - apt-get install -y -qq sshpass
     - export SSHPASS=$PASSWORD_SERVER
-    - sshpass -e ssh -t -oStrictHostKeyChecking=no "$USER_SERVER@$HOST_SERVER" 'git pull && docker restart voting-bot'
+    - |
+      sshpass -e ssh -t -oStrictHostKeyChecking=no "$USER_SERVER@$HOST_SERVER" <<EOF
+        cd voting-bot
+        git pull
+        docker restart voting-bot
+      EOF
   only:
     - main
 
