@@ -16,3 +16,10 @@ def is_yes(route, **payload):
         QuickReply(title="Eny ✅", payload=Payload(route, yes=True, **payload)),
         QuickReply(title="Tsia ✖️", payload=Payload(route, yes=False, **payload)),
     ]
+
+
+def hiu_years():
+    return [
+        QuickReply(title=annee, payload=Payload("/hiu_year", annee=annee))
+        for annee in ("2018", "2019", "2022")
+    ]

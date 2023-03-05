@@ -5,6 +5,7 @@ from views import app_view
 from views import ParticipantView
 
 from . import voting
+from . import story
 
 
 @ampalibe.command("/get_started")
@@ -49,4 +50,4 @@ def apropos(sender_id, **ext):
 
 @ampalibe.command("/historique")
 def historique(sender_id, **ext):
-    chat.send_text(sender_id, "Tsiaron'ny HIU")
+    chat.send_quick_reply(sender_id, app_view.hiu_years(), "Taona faha firy ?")
