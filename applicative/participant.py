@@ -23,4 +23,8 @@ class Participant:
     @staticmethod
     def get_full_list():
         return [ Participant(**data) for data in service.participants() ]
+    
+    @staticmethod
+    def from_name_like(name):
+        return [ Participant(**data) for data in service.participants_from_name_like(name) ]
 

@@ -12,6 +12,11 @@ def _struct(data):
 def participants():
     return list(map(_struct, client.collection("participant").get_full_list()))
 
+def participants_from_name_like(name):
+    return list(map(_struct, client.collection("participant").get_list(
+         query_params={ "filter": f"(univ_name~'%{name}%')" }
+    ).items))
+
 def participant_vote(participant):
     return map(lambda x: x.__dict__, client.collection("vote").get_full_list(
         query_params={"filter": f'participant = "{participant._id}"'}

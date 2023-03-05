@@ -1,5 +1,5 @@
 import ampalibe
-from .base import chat
+from .base import chat, query
 
 from views import app_view
 from views import ParticipantView
@@ -19,7 +19,20 @@ def main(sender_id, **ext):
 @ampalibe.command('/participants')
 def participants(sender_id, **ext):
     elems = [p.toElement() for p in ParticipantView.from_all()]
-    chat.send_generic_template(sender_id, elems, next=True)
+    chat.send_generic_template(sender_id, elems, next="Tohiny")
+
+
+@ampalibe.command('/recherche')
+def recherche(sender_id, **ext):
+    chat.send_text(sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena")
+    query.set_action(sender_id, 'recherche')
+
+
+@ampalibe.action('recherche')
+def act_recherche(sender_id, cmd, **ext):
+    query.set_action(sender_id, None)
+    elems = [p.toElement() for p in ParticipantView.from_name(cmd)]
+    chat.send_generic_template(sender_id, elems, next="Tohiny")
 
 
 @ampalibe.command('/apropos')

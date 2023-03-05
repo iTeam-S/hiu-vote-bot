@@ -11,6 +11,10 @@ class ParticipantView(Participant):
     @staticmethod
     def from_all():
         return [ParticipantView(**p.__dict__) for p in Participant.get_full_list()]
+    
+    @staticmethod
+    def from_name(name):
+        return [ParticipantView(**p.__dict__) for p in Participant.from_name_like(name)]
 
     def toElement(self):
         return Element(
