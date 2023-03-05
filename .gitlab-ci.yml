@@ -46,6 +46,8 @@ deploy-job:
         cd voting-bot
         git pull
         docker rm -f voting-bot
+        docker rmi -f voting-bot-image
+        docker build -t voting-bot-image .
         docker run --name voting-bot -d -p 4555:4555 voting-bot-image
       EOF
   only:
