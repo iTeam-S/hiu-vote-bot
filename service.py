@@ -1,11 +1,10 @@
 from os import environ as env
 from pocketbase import PocketBase
+from ampalibe import Configuration as config
 
-client = PocketBase(env.get("POCKET_URL", ""))
+client = PocketBase(config.POCKET_URL)
 
-client.admins.auth_with_password(
-    env.get("ADMIN_EMAIL", ""), env.get("ADMIN_PASSWORD", "")
-)
+client.admins.auth_with_password(config.ADMIN_EMAIL, config.ADMIN_PASSWORD)
 
 
 def _struct(data):

@@ -25,3 +25,7 @@ class Configuration:
     APP_PORT = int(env.get("AMP_PORT", 4555))
     APP_URL = env.get("AMP_URL")
     ADMIN_ENABLE = env.get("ADMIN_ENABLE")
+
+    ADMIN_EMAIL = env.get("ADMIN_EMAIL", "")
+    ADMIN_PASSWORD = env.get("ADMIN_PASSWORD", "")
+    POCKET_URL = env.get("POCKET_URL", "http://localhost:8090")
