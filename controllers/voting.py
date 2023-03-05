@@ -1,6 +1,8 @@
 import ampalibe
 from ampalibe import Payload
 
+from applicative.contre_vote import ContreVote
+
 from .base import chat, query
 
 from views import app_view
@@ -100,7 +102,21 @@ def contre_vote(sender_id, participant_id, **ext):
             "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa hafa...",
         )
         return
-    print("Coming soon")
+    participant = Participant.from_id(participant_id)
+
+    contre_vote = ContreVote(voter, participant, "zakanay")
+
+    if contre_vote.can_vote:
+        contre_vote.save()
+        chat.send_text(
+            sender_id,
+            f"Misaotra anao, zakanareo ny ekipa an'i: {participant.univ_name} 🙀",
+        )
+    else:
+        chat.send_text(
+            sender_id,
+            f"Aoka zay 😌 Efa miotrin'ny telo ny ekipa zakanareo 🙃",
+        )
 
 
 @ampalibe.command("/description")

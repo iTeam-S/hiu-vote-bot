@@ -85,3 +85,21 @@ def vote_update(vote):
             "comment": vote.comment,
         },
     )
+
+
+def contre_vote_save(contre_vote):
+    return client.collection("contre_vote").create(
+        {
+            "voter": contre_vote.voter.id,
+            "participant": contre_vote.participant.id,
+            "comment": contre_vote.comment,
+        }
+    )
+
+
+def contre_vote_number(voter):
+    return len(
+        client.collection("contre_vote").get_full_list(
+            query_params={"filter": f'voter = "{voter.id}"'}
+        )
+    )
