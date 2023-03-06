@@ -16,7 +16,7 @@ def participants():
     return list(
         map(
             _struct,
-            client.collection("participant").get_full_list(
+            client.collection("participants").get_full_list(
                 query_params={"sort": "univ_name"}
             ),
         )
@@ -27,7 +27,7 @@ def participants_from_name_like(name):
     return list(
         map(
             _struct,
-            client.collection("participant")
+            client.collection("participants")
             .get_list(query_params={"filter": f"(univ_name~'%{name}%')"})
             .items,
         )
@@ -37,45 +37,45 @@ def participants_from_name_like(name):
 def participant_vote(participant):
     return map(
         lambda x: x.__dict__,
-        client.collection("vote").get_full_list(
+        client.collection("votes").get_full_list(
             query_params={"filter": f'participant = "{participant._id}"'}
         ),
     )
 
 
 def participant(_id):
-    return _struct(client.collection("participant").get_one(_id))
+    return _struct(client.collection("participants").get_one(_id))
 
 
 def voter(_id):
-    return client.collection("voter").get_one(_id).__dict__
+    return client.collection("voters").get_one(_id).__dict__
 
 
 def voter_from_fb_id(fb_id):
-    return client.collection("voter").get_full_list(
+    return client.collection("voters").get_full_list(
         query_params={"filter": f'fb_id = "{fb_id}"'}
     )
 
 
 def voter_vote(voter):
-    res = client.collection("vote").get_list(
-        query_params={"filter": f'voter = "{voter.id}"', "expand": "participant"}
+    res = client.collection("votes").get_list(
+        query_params={"filter": f'voter = "{voter.id}"', "expand": "participants"}
     )
     return (
-        _struct(getattr(res.items[0], "expand")["participant"]) if res.items else None
+        _struct(getattr(res.items[0], "expand")["participants"]) if res.items else None
     )
 
 
 def voter_create(fb_id, name, profil_pic):
     return (
-        client.collection("voter")
+        client.collection("voters")
         .create({"fb_id": fb_id, "name": name, "profil_pic": profil_pic})
         .__dict__
     )
 
 
 def vote_save(vote):
-    return client.collection("vote").create(
+    return client.collection("votes").create(
         {
             "voter": vote.voter.id,
             "participant": vote.participant.id,
@@ -85,7 +85,7 @@ def vote_save(vote):
 
 
 def vote_update(vote):
-    return client.collection("vote").update(
+    return client.collection("votes").update(
         vote.id,
         {
             "voter": vote.voter.id,
@@ -96,7 +96,7 @@ def vote_update(vote):
 
 
 def contre_vote_save(contre_vote):
-    return client.collection("contre_vote").create(
+    return client.collection("contre_votes").create(
         {
             "voter": contre_vote.voter.id,
             "participant": contre_vote.participant.id,
@@ -107,7 +107,7 @@ def contre_vote_save(contre_vote):
 
 def contre_vote_number(voter):
     return len(
-        client.collection("contre_vote").get_full_list(
+        client.collection("contre_votes").get_full_list(
             query_params={"filter": f'voter = "{voter.id}"'}
         )
     )
