@@ -59,10 +59,10 @@ def voter_from_fb_id(fb_id):
 
 def voter_vote(voter):
     res = client.collection("votes").get_list(
-        query_params={"filter": f'voter = "{voter.id}"', "expand": "participants"}
+        query_params={"filter": f'voter = "{voter.id}"', "expand": "participant"}
     )
     return (
-        _struct(getattr(res.items[0], "expand")["participants"]) if res.items else None
+        _struct(getattr(res.items[0], "expand")["participant"]) if res.items else None
     )
 
 
