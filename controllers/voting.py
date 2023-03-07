@@ -88,7 +88,11 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
     query.set_action(sender_id, None)
     voter = Voter.from_fb_id(sender_id)
     vote = Vote(voter, participant, cmd)
-    vote.save(update=update)
+    if update:
+        vote.refresh()
+        vote.change_vote(participant)
+    else:
+        vote.save()
     chat.send_text(
         sender_id,
         f"Misaotra anao, tontosa ny fanohananao an'i: {participant.univ_name}",

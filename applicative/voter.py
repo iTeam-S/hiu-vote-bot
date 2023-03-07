@@ -1,5 +1,4 @@
 import service
-import pocketbase.utils
 from .participant import Participant
 
 
