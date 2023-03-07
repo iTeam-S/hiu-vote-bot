@@ -47,7 +47,9 @@ def vote_change(sender_id, participant_id, yes, **ext):
     if yes:
         chat.send_quick_reply(
             sender_id,
-            app_view.is_yes("/comment_vote", participant_id=participant_id),
+            app_view.is_yes(
+                "/comment_vote", participant_id=participant_id, update=True
+            ),
             "Hanampy teny fanohanana?",
         )
     else:
@@ -62,12 +64,13 @@ def vote_change(sender_id, participant_id, yes, **ext):
 
 
 @ampalibe.command("/comment_vote")
-def comment_vote(sender_id, yes, participant_id, **ext):
+def comment_vote(sender_id, yes, participant_id, update=False, **ext):
     participant = Participant.from_id(participant_id)
     if yes:
         chat.send_text(sender_id, "Misaotra anao, Sorato ny teny fanohananao")
         query.set_action(
-            sender_id, Payload("/save_vote", participant_id=participant.id)
+            sender_id,
+            Payload("/save_vote", participant_id=participant.id, update=update),
         )
     else:
         voter = Voter.from_fb_id(sender_id)
@@ -80,12 +83,12 @@ def comment_vote(sender_id, yes, participant_id, **ext):
 
 
 @ampalibe.action("/save_vote")
-def save_vote(sender_id, cmd, participant_id, **ext):
+def save_vote(sender_id, cmd, participant_id, update=False, **ext):
     participant = Participant.from_id(participant_id)
     query.set_action(sender_id, None)
     voter = Voter.from_fb_id(sender_id)
     vote = Vote(voter, participant, cmd)
-    vote.save()
+    vote.save(update=update)
     chat.send_text(
         sender_id,
         f"Misaotra anao, tontosa ny fanohananao an'i: {participant.univ_name}",
