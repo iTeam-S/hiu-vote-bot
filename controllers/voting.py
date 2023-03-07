@@ -107,6 +107,12 @@ def contre_vote(sender_id, participant_id, **ext):
     contre_vote = ContreVote(voter, participant, "zakanay")
 
     if contre_vote.can_vote:
+        if voter.vote == participant:
+            chat.send_text(
+                sender_id,
+                "Efa io ny ekipa alainao 💥 \n\n Manasa anao isafidy ekipa hafa ho 'zakaina'",
+            )
+            return
         contre_vote.save()
         chat.send_text(
             sender_id,
