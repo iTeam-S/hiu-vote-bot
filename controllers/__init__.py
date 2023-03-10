@@ -1,4 +1,5 @@
 import ampalibe
+from ampalibe import async_simulate as simulate
 from .base import chat, query
 
 from views import app_view
@@ -9,9 +10,13 @@ from . import story
 
 
 @ampalibe.command("/get_started")
-def get_started(sender_id, cmd, **ext):
-    # chat.send_text(sender_id, "Hello, Ampalibe")
-    pass
+async def get_started(sender_id, cmd, **ext):
+    chat.persistent_menu(sender_id, app_view.persistant_menu())
+    chat.send_text(
+        sender_id,
+        "Tonga soa aman-tsara ny HIU 2023 , manasa anao hanohana ny ekipnao ",
+    )
+    await simulate(sender_id, "/")
 
 
 @ampalibe.command("/")
@@ -27,7 +32,9 @@ def participants(sender_id, **ext):
 
 @ampalibe.command("/recherche")
 def recherche(sender_id, **ext):
-    chat.send_text(sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena")
+    chat.send_text(
+        sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena"
+    )
     query.set_action(sender_id, "recherche")
 
 
@@ -51,3 +58,12 @@ def apropos(sender_id, **ext):
 @ampalibe.command("/historique")
 def historique(sender_id, **ext):
     chat.send_quick_reply(sender_id, app_view.hiu_years(), "Taona faha firy ?")
+
+
+@ampalibe.command("/about_us")
+def about_us(sender_id, **ext):
+    chat.send_text(
+        sender_id,
+        "Ity page dia natao mba afahanao manohana ny Onivesite mandray anjara"
+        " amin'ny HIU 2023",
+    )
