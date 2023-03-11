@@ -21,7 +21,7 @@ async def get_started(sender_id, cmd, **ext):
 @ampalibe.command("/")
 def main(sender_id, **ext):
     chat.persistent_menu(sender_id, app_view.persistant_menu())
-    chat.send_quick_reply(sender_id, app_view.menu(), "Safidio...")
+    chat.send_quick_reply(sender_id, app_view.menu(), "Hijery...")
 
 
 @ampalibe.command("/participants")

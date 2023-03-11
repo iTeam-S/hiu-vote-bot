@@ -38,7 +38,7 @@ def vote(sender_id, participant_id, **ext):
         chat.send_quick_reply(
             sender_id,
             app_view.is_yes("/vote_change", participant_id=participant_id),
-            "Efa manana ekipa tohanina enao... ovaina ? 😱",
+            "Efa manana ekipa tohanana enao... ovaina ? 😱",
         )
 
 
@@ -58,7 +58,7 @@ def vote_change(sender_id, participant_id, yes, **ext):
         if participant:
             chat.send_text(
                 sender_id,
-                "Misaotra anao, tokam-po tsy miala amn'ny ekipa: "
+                "Misaotra anao tokam-po, tsy miala amn'ny ekipa: "
                 + participant.univ_name,
             )
 
@@ -144,7 +144,7 @@ def contre_vote(sender_id, participant_id, **ext):
         if len(contre_participants_id) != 2:
             chat.send_text(
                 sender_id,
-                f"Mbola afaka misafidy ekipa {3 - len(contre_participants_id) + 1 } hafa ho 'zakaina' ny ekipa zakanareo",
+                f"Mbola afaka misafidy ekipa {3 - len(contre_participants_id) + 1 } hafa ho 'zakaina' ianao 🙃 ",
             )
     else:
         chat.send_text(
@@ -165,25 +165,25 @@ def get_vote_and_contre_vote(sender_id, **ext):
     if not voter:
         chat.send_text(
             sender_id,
-            "Mbola tsy nisafidy ekipa tohanina  ianao",
+            "Mbola tsy nisafidy ekipa tohanana  ianao",
         )
         return
     participant = voter.vote
     if not participant:
         chat.send_text(
             sender_id,
-            "Mbola tsy nisafidy ekipa tohanina  ianao",
+            "Mbola tsy nisafidy ekipa tohanana  ianao",
         )
         return
     chat.send_text(
         sender_id,
-        f"Ny ekipa tohaninao amin'izao dia: 🔥 {participant.univ_name} 🔥",
+        f"Ny ekipa tohananao amin'izao dia: 🔥 {participant.univ_name} 🔥",
     )
     contre_votes = ContreVote.from_fb_id(sender_id)
     if not contre_votes:
         chat.send_text(
             sender_id,
-            "Mbola tsy nisafidy ekipa zakanay ianao .Marihana fa afaka mazaka"
+            "Mbola tsy nisafidy ekipa 'zakanao' ianao. \nMarihana fa afaka mazaka"
             " ekipa telo(03) ianao.",
         )
     else:
