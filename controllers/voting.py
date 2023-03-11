@@ -149,7 +149,7 @@ def contre_vote(sender_id, participant_id, **ext):
         if len(contre_participants_id) != 2:
             chat.send_text(
                 sender_id,
-                f"Mbola afaka misafidy ekipa {3 - len(contre_participants_id) + 1 } hafa ho 'zakaina' ianao 🙃 ",
+                f"Mbola afaka misafidy ekipa { 3 - (len(contre_participants_id) + 1) } hafa ho 'zakaina' ianao 🙃 ",
             )
     else:
         chat.send_text(
@@ -190,14 +190,14 @@ def get_vote_and_contre_vote(sender_id, **ext):
     if not contre_votes:
         chat.send_text(
             sender_id,
-            "Mbola tsy nisafidy ekipa 'zakanao' ianao. \nMarihana fa afaka mazaka"
+            "Mbola tsy nisafidy ekipa 'zakanao' ianao. \nMarihina fa afaka mahazaka"
             " ekipa telo(03) ianao.",
         )
     else:
         data = "\n- ".join([c.participant.univ_name + " 🙀" for c in contre_votes])
         chat.send_text(
             sender_id,
-            f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihana fa afaka mazaka"
+            f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihina fa afaka mahazaka"
             " ekipa telo(03) ianao.",
         )
     return BackAndMenuButton()

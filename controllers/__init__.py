@@ -71,7 +71,7 @@ def historique(sender_id, **ext):
 def about_us(sender_id, **ext):
     chat.send_text(
         sender_id,
-        "Ity page dia natao mba afahanao manohana ny Onivesite mandray anjara"
+        "Ity pejy ity dia natao mba ahafahanao manohana ny Oniversite mandray anjara"
         " amin'ny HIU 2023",
     )
     return BackAndMenuButton()
