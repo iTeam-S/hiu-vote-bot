@@ -11,16 +11,16 @@ from . import story
 
 @ampalibe.command("/get_started")
 async def get_started(sender_id, cmd, **ext):
-    chat.persistent_menu(sender_id, app_view.persistant_menu())
     chat.send_text(
         sender_id,
-        "Tonga soa aman-tsara ny HIU 2023 , manasa anao hanohana ny ekipnao ",
+        "Tonga soa aman-tsara ny HIU 2023 , manasa anao hanohana ny ekipanao ",
     )
     await simulate(sender_id, "/")
 
 
 @ampalibe.command("/")
 def main(sender_id, **ext):
+    chat.persistent_menu(sender_id, app_view.persistant_menu())
     chat.send_quick_reply(sender_id, app_view.menu(), "Safidio...")
 
 

@@ -113,11 +113,13 @@ def contre_vote(sender_id, participant_id, **ext):
             "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa" " hafa...",
         )
         return
-    participant = Participant.from_id(participant_id)
 
-    if participant.id in tuple(
+    participant = Participant.from_id(participant_id)
+    contre_participants_id = tuple(
         map(lambda x: x.participant.id, ContreVote.from_fb_id(sender_id))
-    ):
+    )
+
+    if participant.id in contre_participants_id:
         chat.send_text(
             sender_id,
             f"Miala tsiny 😌, Efa anatiny lisitry ny ekipa zakanao ny ekipan'i {participant.univ_name} 😶😶",
@@ -139,6 +141,11 @@ def contre_vote(sender_id, participant_id, **ext):
             sender_id,
             "Misaotra anao, zakanareo ny ekipa an'i:" f" {participant.univ_name} 🙀",
         )
+        if len(contre_participants_id) != 2:
+            chat.send_text(
+                sender_id,
+                f"Mbola afaka misafidy ekipa {3 - len(contre_participants_id) + 1 } hafa ho 'zakaina' ny ekipa zakanareo",
+            )
     else:
         chat.send_text(
             sender_id,
@@ -170,7 +177,7 @@ def get_vote_and_contre_vote(sender_id, **ext):
         return
     chat.send_text(
         sender_id,
-        f"Ny ekipa tohaninao amin'izao dia: {participant.univ_name} ",
+        f"Ny ekipa tohaninao amin'izao dia: 🔥 {participant.univ_name} 🔥",
     )
     contre_votes = ContreVote.from_fb_id(sender_id)
     if not contre_votes:
@@ -180,7 +187,7 @@ def get_vote_and_contre_vote(sender_id, **ext):
             " ekipa telo(03) ianao.",
         )
     else:
-        data = "\n- ".join([c.participant.univ_name for c in contre_votes])
+        data = "\n- ".join([c.participant.univ_name + " 🙀" for c in contre_votes])
         chat.send_text(
             sender_id,
             f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihana fa afaka mazaka"

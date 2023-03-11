@@ -16,7 +16,7 @@ Bot messenger anatin'ny page Facebook [HIU 2023 Cote](https://web.facebook.com/p
 ## Installation
 
 ```bash
-$ pip install -r requirements
+$ pip install -r requirements.txt
 ```
 
 ## Usage
@@ -40,9 +40,6 @@ $ ampalibe run
 ## Roadmap
 
 - [ ] Misy fiteny samy hafa afaka isafidianana 
-- [ ] Fenoina ny menu mombamomba ny HIU 
-- [ ] Ny menu misy ny tsiaro ny teo aloha 
-- [ ] Sakanana ny "zakanay" ny ekipa izay nalaina
 - [ ] Mampahalala ny ekipa afaka ataoa "zakanay" sisa tavela
 - [ ] Afaka asina teny ihany koa ny menu 'zakanay'
 
