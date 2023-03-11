@@ -16,5 +16,9 @@ class ContreVote:
             return False
         return True
 
+    @staticmethod
+    def from_fb_id(fb_id):
+        return service.contre_vote_from_fb_id(fb_id)
+
     def save(self):
         return service.contre_vote_save(self)

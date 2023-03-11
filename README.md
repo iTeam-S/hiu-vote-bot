@@ -11,7 +11,7 @@ Bot messenger anatin'ny page Facebook [HIU 2023 Cote](https://web.facebook.com/p
 
 ## Visuals
 
-<img src="https://gitlab.com/hiu-cote/client/voting-bot/-/raw/4f2abeac4c173a5ec5fed80cae1c44fdf35a9f03/visual.jpg?inline=false">
+<img src="https://github.com/iTeam-S/hiu-vote-bot/blob/main/visual.jpg?raw=true">
 
 ## Installation
 
