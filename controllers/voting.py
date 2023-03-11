@@ -95,10 +95,10 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
     participant = Participant.from_id(participant_id)
     query.set_action(sender_id, None)
     voter = Voter.from_fb_id(sender_id)
-    vote = Vote(voter, participant, cmd)
+    vote = Vote(voter, participant, "")
     if update:
         vote.refresh()
-        vote.change_vote(participant)
+        vote.change_vote(participant, cmd)
     else:
         vote.save()
     chat.send_text(
