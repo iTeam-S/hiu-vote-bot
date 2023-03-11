@@ -32,9 +32,7 @@ def participants(sender_id, **ext):
 
 @ampalibe.command("/recherche")
 def recherche(sender_id, **ext):
-    chat.send_text(
-        sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena"
-    )
+    chat.send_text(sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena")
     query.set_action(sender_id, "recherche")
 
 
@@ -52,7 +50,11 @@ def act_recherche(sender_id, cmd, **ext):
 
 @ampalibe.command("/apropos")
 def apropos(sender_id, **ext):
-    chat.send_text(sender_id, "Momban'ny HIU")
+    chat.send_text(sender_id, "Momban'ny HIU ( Hackathon Inter Universitaire)")
+    chat.send_text(
+        sender_id,
+        "Lalao hifanandranan’ireo mpianatra ao amin’ny tontolon’ny informatika.",
+    )
 
 
 @ampalibe.command("/historique")

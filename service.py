@@ -65,11 +65,7 @@ def voter_vote(voter, participant=True):
         }
     )
     return (
-        (
-            _struct(getattr(res.items[0], "expand")["participant"])
-            if res.items
-            else {}
-        )
+        (_struct(getattr(res.items[0], "expand")["participant"]) if res.items else {})
         if participant
         else res.items[0].__dict__
     )
@@ -123,11 +119,14 @@ def contre_vote_number(voter):
 
 
 def contre_vote_from_fb_id(fb_id):
-    return list(map(
-        lambda x: x.__dict__,
-        client.collection("contre_votes").get_full_list(
-            query_params={
-                "filter": f'voter.fb_id = "{fb_id}"',
-            }
-        ),
-    ))
+    return list(
+        map(
+            lambda x: x.__dict__,
+            client.collection("contre_votes").get_full_list(
+                query_params={
+                    "filter": f'voter.fb_id = "{fb_id}"',
+                    "expand": "participant,voter",
+                }
+            ),
+        )
+    )

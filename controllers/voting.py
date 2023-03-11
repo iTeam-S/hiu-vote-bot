@@ -32,8 +32,7 @@ def vote(sender_id, participant_id, **ext):
         chat.send_text(
             sender_id,
             "Efa io indrindra ny safidinao 💥 \n\nMisaotra anao, tokam-po tsy"
-            " miala amn'ny ekipa: "
-            + voter.vote.univ_name,
+            " miala amn'ny ekipa: " + voter.vote.univ_name,
         )
     else:
         chat.send_quick_reply(
@@ -71,9 +70,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
         chat.send_text(sender_id, "Misaotra anao, Sorato ny teny fanohananao")
         query.set_action(
             sender_id,
-            Payload(
-                "/save_vote", participant_id=participant.id, update=update
-            ),
+            Payload("/save_vote", participant_id=participant.id, update=update),
         )
     else:
         voter = Voter.from_fb_id(sender_id)
@@ -85,8 +82,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
             vote.save()
         chat.send_text(
             sender_id,
-            "Misaotra anao, tontosa ny fanohananao an'i:"
-            f" {participant.univ_name}",
+            "Misaotra anao, tontosa ny fanohananao an'i:" f" {participant.univ_name}",
         )
 
 
@@ -114,11 +110,19 @@ def contre_vote(sender_id, participant_id, **ext):
     if not voter:
         chat.send_text(
             sender_id,
-            "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa"
-            " hafa...",
+            "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa" " hafa...",
         )
         return
     participant = Participant.from_id(participant_id)
+
+    if participant.id in tuple(
+        map(lambda x: x.participant.id, ContreVote.from_fb_id(sender_id))
+    ):
+        chat.send_text(
+            sender_id,
+            f"Miala tsiny 😌, Efa anatiny lisitry ny ekipa zakanao ny ekipan'i {participant.univ_name} 😶😶",
+        )
+        return
 
     contre_vote = ContreVote(voter, participant, "zakanay")
 
@@ -133,8 +137,7 @@ def contre_vote(sender_id, participant_id, **ext):
         contre_vote.save()
         chat.send_text(
             sender_id,
-            "Misaotra anao, zakanareo ny ekipa an'i:"
-            f" {participant.univ_name} 🙀",
+            "Misaotra anao, zakanareo ny ekipa an'i:" f" {participant.univ_name} 🙀",
         )
     else:
         chat.send_text(
@@ -155,14 +158,14 @@ def get_vote_and_contre_vote(sender_id, **ext):
     if not voter:
         chat.send_text(
             sender_id,
-            "Mbola tsy misafidy ekipa tohanina  ianao",
+            "Mbola tsy nisafidy ekipa tohanina  ianao",
         )
         return
     participant = voter.vote
     if not participant:
         chat.send_text(
             sender_id,
-            "Mbola tsy misafidy ekipa tohanina  ianao",
+            "Mbola tsy nisafidy ekipa tohanina  ianao",
         )
         return
     chat.send_text(
@@ -176,12 +179,10 @@ def get_vote_and_contre_vote(sender_id, **ext):
             "Mbola tsy nisafidy ekipa zakanay ianao .Marihana fa afaka mazaka"
             " ekipa telo(03) ianao.",
         )
-        return
-    data = "\n- ".join(
-        [Participant.from_id(c["participant"]).univ_name for c in contre_votes]
-    )
-    chat.send_text(
-        sender_id,
-        f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihana fa afaka mazaka"
-        " ekipa telo(03) ianao.",
-    )
+    else:
+        data = "\n- ".join([c.participant.univ_name for c in contre_votes])
+        chat.send_text(
+            sender_id,
+            f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihana fa afaka mazaka"
+            " ekipa telo(03) ianao.",
+        )

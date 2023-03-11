@@ -3,7 +3,7 @@ import service
 
 class Participant:
     def __init__(
-        self, id, full_univ_name, univ_name, logo_url, city, description, **kwargs
+        self, id, full_univ_name, univ_name, city, description, logo_url=None, **kwargs
     ):
         self.id = id
         self.full_univ_name = full_univ_name
