@@ -1,4 +1,6 @@
 import ampalibe
+
+from response import BackAndMenuButton
 from .base import chat
 
 data = {
@@ -26,3 +28,4 @@ Coup de coeur : EMIT
 def hiu_year(sender_id, annee, **ext):
     chat.send_text(sender_id, "Momban'ny HIU " + annee)
     chat.send_text(sender_id, data[annee])
+    return BackAndMenuButton()

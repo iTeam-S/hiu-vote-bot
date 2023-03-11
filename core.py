@@ -1,5 +1,6 @@
 import ampalibe
 from controllers import chat
+from response import BackAndMenuButton
 from ampalibe.messenger import Action
 
 chat.get_started("/get_started")
@@ -13,5 +14,7 @@ def before_receive(sender_id, **ext):
 
 
 @ampalibe.after_receive()
-def after_receive(sender_id, **ext):
+def after_receive(sender_id, res, **ext):
     chat.send_action(sender_id, Action.typing_off)
+    if isinstance(res, BackAndMenuButton):
+        chat.send_quick_reply(sender_id, res.toQuickreply, "...")

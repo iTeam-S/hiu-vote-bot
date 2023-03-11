@@ -1,12 +1,15 @@
 import ampalibe
+from ampalibe import Payload
 from ampalibe import async_simulate as simulate
-from .base import chat, query
 
 from views import app_view
+from .base import chat, query
 from views import ParticipantView
 
 from . import voting
 from . import story
+
+from response import BackAndMenuButton
 
 
 @ampalibe.command("/get_started")
@@ -33,10 +36,10 @@ def participants(sender_id, **ext):
 @ampalibe.command("/recherche")
 def recherche(sender_id, **ext):
     chat.send_text(sender_id, "Ampidiro ny anaran'ny mpandray anjara tianao jerena")
-    query.set_action(sender_id, "recherche")
+    query.set_action(sender_id, "/recherche")
 
 
-@ampalibe.action("recherche")
+@ampalibe.action("/recherche")
 def act_recherche(sender_id, cmd, **ext):
     query.set_action(sender_id, None)
     elems = [p.toElement() for p in ParticipantView.from_name(cmd)]
@@ -46,6 +49,7 @@ def act_recherche(sender_id, cmd, **ext):
         chat.send_text(
             sender_id, "Tsy nahitana ny mpandray anjara misy anarana: " + cmd
         )
+        return BackAndMenuButton(Payload("/recherche"), "Hafa 🔎")
 
 
 @ampalibe.command("/apropos")
@@ -55,6 +59,7 @@ def apropos(sender_id, **ext):
         sender_id,
         "Lalao hifanandranan’ireo mpianatra ao amin’ny tontolon’ny informatika.",
     )
+    return BackAndMenuButton()
 
 
 @ampalibe.command("/historique")
@@ -69,3 +74,4 @@ def about_us(sender_id, **ext):
         "Ity page dia natao mba afahanao manohana ny Onivesite mandray anjara"
         " amin'ny HIU 2023",
     )
+    return BackAndMenuButton()

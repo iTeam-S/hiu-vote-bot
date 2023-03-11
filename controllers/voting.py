@@ -1,6 +1,7 @@
 import ampalibe
 from ampalibe import Payload
 
+from response import BackAndMenuButton
 from applicative.contre_vote import ContreVote
 
 from .base import chat, query
@@ -34,6 +35,7 @@ def vote(sender_id, participant_id, **ext):
             "Efa io indrindra ny safidinao 💥 \n\nMisaotra anao, tokam-po tsy"
             " miala amn'ny ekipa: " + voter.vote.univ_name,
         )
+        return BackAndMenuButton(Payload("/participant"))
     else:
         chat.send_quick_reply(
             sender_id,
@@ -61,6 +63,7 @@ def vote_change(sender_id, participant_id, yes, **ext):
                 "Misaotra anao tokam-po, tsy miala amn'ny ekipa: "
                 + participant.univ_name,
             )
+            return BackAndMenuButton(Payload("/participant"))
 
 
 @ampalibe.command("/comment_vote")
@@ -84,6 +87,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
             sender_id,
             "Misaotra anao, tontosa ny fanohananao an'i:" f" {participant.univ_name}",
         )
+        return BackAndMenuButton(Payload("/participant"))
 
 
 @ampalibe.action("/save_vote")
@@ -102,6 +106,7 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
         f"Misaotra anao, tontosa ny fanohananao an'i: {participant.univ_name}",
     )
     chat.send_text(sender_id, "Ny teny fanohananao dia: \n\n" + cmd)
+    return BackAndMenuButton(Payload("/participant"))
 
 
 @ampalibe.command("/contre_vote")
@@ -112,7 +117,7 @@ def contre_vote(sender_id, participant_id, **ext):
             sender_id,
             "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa" " hafa...",
         )
-        return
+        return BackAndMenuButton(Payload("/participant"))
 
     participant = Participant.from_id(participant_id)
     contre_participants_id = tuple(
@@ -124,7 +129,7 @@ def contre_vote(sender_id, participant_id, **ext):
             sender_id,
             f"Miala tsiny 😌, Efa anatiny lisitry ny ekipa zakanao ny ekipan'i {participant.univ_name} 😶😶",
         )
-        return
+        return BackAndMenuButton(Payload("/participant"))
 
     contre_vote = ContreVote(voter, participant, "zakanay")
 
@@ -135,7 +140,7 @@ def contre_vote(sender_id, participant_id, **ext):
                 "Efa io ny ekipa alainao 💥 \n\n Manasa anao isafidy ekipa hafa"
                 " ho 'zakaina'",
             )
-            return
+            return BackAndMenuButton(Payload("/participant"))
         contre_vote.save()
         chat.send_text(
             sender_id,
@@ -151,12 +156,14 @@ def contre_vote(sender_id, participant_id, **ext):
             sender_id,
             f"Aoka zay 😌 Efa miotrin'ny telo ny ekipa zakanareo 🙃",
         )
+    return BackAndMenuButton(Payload("/participant"))
 
 
 @ampalibe.command("/description")
 def description(sender_id, participant_id, **ext):
     participant = Participant.from_id(participant_id)
     chat.send_text(sender_id, participant.description)
+    return BackAndMenuButton()
 
 
 @ampalibe.command("/get_votes")
@@ -167,14 +174,14 @@ def get_vote_and_contre_vote(sender_id, **ext):
             sender_id,
             "Mbola tsy nisafidy ekipa tohanana  ianao",
         )
-        return
+        return BackAndMenuButton()
     participant = voter.vote
     if not participant:
         chat.send_text(
             sender_id,
             "Mbola tsy nisafidy ekipa tohanana  ianao",
         )
-        return
+        return BackAndMenuButton()
     chat.send_text(
         sender_id,
         f"Ny ekipa tohananao amin'izao dia: 🔥 {participant.univ_name} 🔥",
@@ -193,3 +200,4 @@ def get_vote_and_contre_vote(sender_id, **ext):
             f"Ireto avy ny ekipa zakanao: \n- {data} \nMarihana fa afaka mazaka"
             " ekipa telo(03) ianao.",
         )
+    return BackAndMenuButton()
