@@ -47,6 +47,17 @@ def vote(sender_id, participant_id, **ext):
 @ampalibe.command("/vote_change")
 def vote_change(sender_id, participant_id, yes, **ext):
     if yes:
+        voter = Voter.from_fb_id(sender_id)
+        contre_participants_id = tuple(
+            map(lambda x: x.participant.id, ContreVote.from_fb_id(sender_id))
+        )
+        if participant_id in contre_participants_id:
+            participant = Participant.from_id(participant_id)
+            chat.send_text(
+                sender_id,
+                f"Miala tsiny 😌, Efa anatiny lisitry ny ekipa zakanao ny ekipan'i {participant.univ_name} 😶😶",
+            )
+            return BackAndMenuButton(Payload("/participant"))
         chat.send_quick_reply(
             sender_id,
             app_view.is_yes(
