@@ -170,27 +170,46 @@ def contre_vote(sender_id, participant_id, **ext):
     return BackAndMenuButton(Payload("/participant"))
 
 
-@ampalibe.command("/comment_contre_vote")
-def comment_contre_vote(
-    sender_id, yes, participant_id, cmd, contre_participants_id, **ext
-):
+def save(sender_id, participant_id, contre_participants_id, comment):
     voter = Voter.from_fb_id(sender_id)
     participant = Participant.from_id(participant_id)
-
-    contre_vote = ContreVote(voter, participant, cmd if yes else "")
-
+    contre_vote = ContreVote(voter, participant, comment)
     contre_vote.save()
-
     chat.send_text(
         sender_id,
         "Misaotra anao, zakanareo ny ekipa an'i:"
-        f" {participant.univ_name} 🙀 \n\n  {cmd}",
+        f" {participant.univ_name} 🙀 \n\n {comment}",
     )
+
     if len(contre_participants_id) != 2:
         chat.send_text(
             sender_id,
             f"Mbola afaka misafidy ekipa { 3 - (len(contre_participants_id) + 1) } hafa ho 'zakaina' ianao 🙃 ",
         )
+
+
+@ampalibe.command("/comment_contre_vote")
+def comment_contre_vote(
+    sender_id, yes, participant_id, contre_participants_id, comment="", **ext
+):
+    if yes:
+        chat.send_text(sender_id, "Sorato ny teny fanampin'ny safidinao...")
+        query.set_action(
+            sender_id,
+            Payload(
+                "/save_contre_vote",
+                contre_participants_id=contre_participants_id,
+                participant_id=participant_id,
+            ),
+        )
+        return
+    save(sender_id, participant_id, contre_participants_id, comment)
+
+
+@ampalibe.action("/save_contre_vote")
+def save_contre_vote(sender_id, cmd, contre_participants_id, participant_id, **ext):
+    query.set_action(sender_id, None)
+    save(sender_id, participant_id, contre_participants_id, cmd)
 
 
 @ampalibe.command("/description")
