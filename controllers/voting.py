@@ -1,12 +1,9 @@
 import ampalibe
+from views import app_view
 from ampalibe import Payload
-
+from .base import chat, query
 from response import BackAndMenuButton
 from applicative.contre_vote import ContreVote
-
-from .base import chat, query
-
-from views import app_view
 from applicative import Participant, Vote, Voter
 
 

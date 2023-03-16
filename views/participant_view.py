@@ -1,6 +1,5 @@
-from applicative import Participant
-
 from ampalibe import Payload
+from applicative import Participant
 from ampalibe.ui import Type, Button, Element
 
 

@@ -1,25 +1,25 @@
 import ampalibe
-
-from response import BackAndMenuButton
 from .base import chat
+from ampalibe import Payload
+from response import BackAndMenuButton
 
 data = {
     "2018": """
-- 1e : CNTEMAD
-- 2e : IT University
-- 3e : ESPA
-Coup de coeur : EMIT 
+- Volohany : 🥇 CNTEMAD
+- Faharoa : 🥈 IT University
+- Fahatelo : 🥉 ESPA
+Coup de coeur : ♥️ EMIT 
 """,
     "2019": """
-- 1e : EMIT
-- 2e : IT University
-- 3e : ESPA
+- Volohany : 🥇 EMIT
+- Faharoa : 🥈 IT University
+- Fahatelo : 🥉 ESPA
 """,
     "2022": """
-- 1e : ISPM
-- 2e : ESTI
-- 3e : EMIT
-Coup de coeur : EMIT
+- Volohany : 🥇 ISPM
+- Faharoa : 🥈 ESTI
+- Fahatelo : 🥉 EMIT
+Coup de coeur : ♥️ EMIT
 """,
 }
 
@@ -28,4 +28,4 @@ Coup de coeur : EMIT
 def hiu_year(sender_id, annee, **ext):
     chat.send_text(sender_id, "Momban'ny HIU " + annee)
     chat.send_text(sender_id, data[annee])
-    return BackAndMenuButton()
+    return BackAndMenuButton(Payload("/historique"), "Taona Hafa ? ")

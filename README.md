@@ -40,8 +40,7 @@ $ ampalibe run
 ## Roadmap
 
 - [ ] Misy fiteny samy hafa afaka isafidianana 
-- [ ] Mampahalala ny ekipa afaka ataoa "zakanay" sisa tavela
-- [ ] Afaka asina teny ihany koa ny menu 'zakanay'
+- [ ] Manova y zakanay no safidina
 
 
 ## Contributing

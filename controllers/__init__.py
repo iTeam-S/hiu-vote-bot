@@ -1,15 +1,12 @@
 import ampalibe
-from ampalibe import Payload
-from ampalibe import async_simulate as simulate
-
+from . import story
+from . import voting
 from views import app_view
+from ampalibe import Payload
 from .base import chat, query
 from views import ParticipantView
-
-from . import voting
-from . import story
-
 from response import BackAndMenuButton
+from ampalibe import async_simulate as simulate
 
 
 @ampalibe.command("/get_started")
