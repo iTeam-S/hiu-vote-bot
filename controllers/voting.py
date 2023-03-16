@@ -161,6 +161,7 @@ def contre_vote(sender_id, participant_id, **ext):
             ),
             "Hanisy sira?",
         )
+        return
     else:
         chat.send_text(
             sender_id,
