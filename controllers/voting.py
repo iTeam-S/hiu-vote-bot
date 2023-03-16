@@ -142,7 +142,7 @@ def contre_vote(sender_id, participant_id, **ext):
         )
         return BackAndMenuButton(Payload("/participant"))
 
-    contre_vote = ContreVote(voter, participant, "zakanay")
+    contre_vote = ContreVote(voter, participant, "")
 
     if contre_vote.can_vote:
         if voter.vote == participant:
@@ -152,22 +152,44 @@ def contre_vote(sender_id, participant_id, **ext):
                 " ho 'zakaina'",
             )
             return BackAndMenuButton(Payload("/participant"))
-        contre_vote.save()
-        chat.send_text(
+        chat.send_quick_reply(
             sender_id,
-            "Misaotra anao, zakanareo ny ekipa an'i:" f" {participant.univ_name} 🙀",
+            app_view.is_yes(
+                "/comment_contre_vote",
+                participant_id=participant_id,
+                contre_participants_id=contre_participants_id,
+            ),
+            "Hanisy sira?",
         )
-        if len(contre_participants_id) != 2:
-            chat.send_text(
-                sender_id,
-                f"Mbola afaka misafidy ekipa { 3 - (len(contre_participants_id) + 1) } hafa ho 'zakaina' ianao 🙃 ",
-            )
     else:
         chat.send_text(
             sender_id,
             f"Aoka zay 😌 Efa miotrin'ny telo ny ekipa zakanareo 🙃",
         )
     return BackAndMenuButton(Payload("/participant"))
+
+
+@ampalibe.command("/comment_contre_vote")
+def comment_contre_vote(
+    sender_id, yes, participant_id, cmd, contre_participants_id, **ext
+):
+    voter = Voter.from_fb_id(sender_id)
+    participant = Participant.from_id(participant_id)
+
+    contre_vote = ContreVote(voter, participant, cmd if yes else "")
+
+    contre_vote.save()
+
+    chat.send_text(
+        sender_id,
+        "Misaotra anao, zakanareo ny ekipa an'i:"
+        f" {participant.univ_name} 🙀 \n\n  {cmd}",
+    )
+    if len(contre_participants_id) != 2:
+        chat.send_text(
+            sender_id,
+            f"Mbola afaka misafidy ekipa { 3 - (len(contre_participants_id) + 1) } hafa ho 'zakaina' ianao 🙃 ",
+        )
 
 
 @ampalibe.command("/description")
@@ -195,7 +217,7 @@ def get_vote_and_contre_vote(sender_id, **ext):
         return BackAndMenuButton()
     chat.send_text(
         sender_id,
-        f"Ny ekipa tohananao amin'izao dia: 🔥 {participant.univ_name} 🔥",
+        f"Ny ekipa tohananao amin'izao dia: 🔥 {participant.univ_name} 🔥 ",
     )
     contre_votes = ContreVote.from_fb_id(sender_id)
     if not contre_votes:
