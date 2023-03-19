@@ -54,7 +54,7 @@ def vote_change(sender_id, participant_id, yes, **ext):
                 sender_id,
                 f"Miala tsiny 😌, Efa anatiny lisitry ny ekipa zakanao ny ekipan'i {participant.univ_name} 😶😶",
             )
-            return BackAndMenuButton(Payload("/participant"))
+            return BackAndMenuButton(Payload("/participants"))
         chat.send_quick_reply(
             sender_id,
             app_view.is_yes(
@@ -71,7 +71,7 @@ def vote_change(sender_id, participant_id, yes, **ext):
                 "Misaotra anao tokam-po, tsy miala amn'ny ekipa: "
                 + participant.univ_name,
             )
-            return BackAndMenuButton(Payload("/participant"))
+            return BackAndMenuButton(Payload("/participants"))
 
 
 @ampalibe.command("/comment_vote")
@@ -85,7 +85,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
         )
     else:
         voter = Voter.from_fb_id(sender_id)
-        vote = Vote(voter, participant, "")
+        vote = Vote(voter, participant)
         if update:
             vote.refresh()
             vote.change_vote(participant)
@@ -95,15 +95,15 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
             sender_id,
             "Misaotra anao, tontosa ny fanohananao an'i:" f" {participant.univ_name}",
         )
-        return BackAndMenuButton(Payload("/participant"))
+        return BackAndMenuButton(Payload("/participants"))
 
 
 @ampalibe.action("/save_vote")
 def save_vote(sender_id, cmd, participant_id, update=False, **ext):
-    participant = Participant.from_id(participant_id)
     query.set_action(sender_id, None)
+    participant = Participant.from_id(participant_id)
     voter = Voter.from_fb_id(sender_id)
-    vote = Vote(voter, participant, cmd)
+    vote = Vote(voter, participant, comment=cmd)
     if update:
         vote.refresh()
         vote.change_vote(participant, cmd)
@@ -113,8 +113,8 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
         sender_id,
         f"Misaotra anao, tontosa ny fanohananao an'i: {participant.univ_name}",
     )
-    chat.send_text(sender_id, "Ny teny fanohananao dia: \n\n" + cmd)
-    return BackAndMenuButton(Payload("/participant"))
+    chat.send_text(sender_id, "Ny teny fanohananao dia: \n\n" + cmd[:990] + "...")
+    return BackAndMenuButton(Payload("/participants"))
 
 
 @ampalibe.command("/contre_vote")
@@ -175,7 +175,7 @@ def save(sender_id, participant_id, contre_participants_id, comment):
     chat.send_text(
         sender_id,
         "Misaotra anao, zakanareo ny ekipa an'i:"
-        f" {participant.univ_name} 🙀 \n\n {comment}",
+        f" {participant.univ_name} 🙀 \n\n {comment[:990]}...",
     )
 
     if len(contre_participants_id) != 2:
