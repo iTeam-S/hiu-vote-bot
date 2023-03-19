@@ -43,7 +43,7 @@ deploy-job:
     - export SSHPASS=$PASSWORD_SERVER
     - |
       sshpass -e ssh -t -oStrictHostKeyChecking=no "$USER_SERVER@$HOST_SERVER" <<EOF
-        cd voting-bot
+        cd /opt/voting-bot
         git pull
         docker rm -f voting-bot
         docker rmi -f voting-bot-image
