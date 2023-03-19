@@ -1,4 +1,3 @@
-from os import environ as env
 from pocketbase import PocketBase
 from ampalibe import Configuration as config
 

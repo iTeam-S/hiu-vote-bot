@@ -103,7 +103,7 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
     participant = Participant.from_id(participant_id)
     query.set_action(sender_id, None)
     voter = Voter.from_fb_id(sender_id)
-    vote = Vote(voter, participant, "")
+    vote = Vote(voter, participant, cmd)
     if update:
         vote.refresh()
         vote.change_vote(participant, cmd)
