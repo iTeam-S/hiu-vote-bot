@@ -88,7 +88,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
         vote = Vote(voter, participant)
         if update:
             vote.refresh()
-            vote.change_vote(participant)
+            vote.change_vote(participant, '...')
         else:
             vote.save()
         chat.send_text(
