@@ -56,19 +56,14 @@ def apropos(sender_id, **ext):
         sender_id,
         "Lalao hifanandranan’ireo mpianatra ao amin’ny tontolon’ny informatika.",
     )
-    return BackAndMenuButton()
-
-
-@ampalibe.command("/historique")
-def historique(sender_id, **ext):
-    chat.send_quick_reply(sender_id, app_view.hiu_years(), "Taona faha firy ?")
-
-
-@ampalibe.command("/about_us")
-def about_us(sender_id, **ext):
     chat.send_text(
         sender_id,
         "Ity pejy ity dia natao mba ahafahanao manohana ny Oniversite mandray anjara"
         " amin'ny HIU 2023",
     )
     return BackAndMenuButton()
+
+
+@ampalibe.command("/historique")
+def historique(sender_id, **ext):
+    chat.send_quick_reply(sender_id, app_view.hiu_years(), "Taona faha firy ?")

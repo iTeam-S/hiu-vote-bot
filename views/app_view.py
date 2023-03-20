@@ -4,11 +4,9 @@ from ampalibe.ui import QuickReply, Button, Type
 
 def menu():
     return [
-        QuickReply(
-            title="Mpandray anjara 📜", payload=Payload("/participants")
-        ),
+        QuickReply(title="Mpandray anjara 📜", payload=Payload("/participants")),
         QuickReply(title="Hitady 🔎", payload=Payload("/recherche")),
-        QuickReply(title="Momban'ny HIU ℹ️", payload=Payload("/apropos")),
+        QuickReply(title="Momban'nyℹ️", payload=Payload("/apropos")),
         QuickReply(title="Tsiaron'ny HIU 👀", payload=Payload("/historique")),
     ]
 
@@ -17,7 +15,8 @@ def persistant_menu():
     return [
         Button(
             type=Type.postback,
-            title="📜 Mpandray anjara", payload=Payload("/participants")
+            title="📜 Mpandray anjara",
+            payload=Payload("/participants"),
         ),
         Button(
             type=Type.postback,
@@ -25,9 +24,9 @@ def persistant_menu():
             payload=Payload("/get_votes"),
         ),
         Button(
-            type=Type.postback,
-            title="ℹ️ Mombamomba anay",
-            payload=Payload("/about_us"),
+            type=Type.web_url,
+            title="📊 Hijery ny antontan'isa",
+            url="https://hiu-cote.iteam-s.mg",
         ),
     ]
 
@@ -35,9 +34,7 @@ def persistant_menu():
 def is_yes(route, **payload):
     return [
         QuickReply(title="Eny ✅", payload=Payload(route, yes=True, **payload)),
-        QuickReply(
-            title="Tsia ✖️", payload=Payload(route, yes=False, **payload)
-        ),
+        QuickReply(title="Tsia ✖️", payload=Payload(route, yes=False, **payload)),
     ]
 
 
