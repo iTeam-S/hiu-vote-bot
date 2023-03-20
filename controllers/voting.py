@@ -85,10 +85,10 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
         )
     else:
         voter = Voter.from_fb_id(sender_id)
-        vote = Vote(voter, participant, comment="...")
+        vote = Vote(voter, participant)
         if update:
             vote.refresh()
-            vote.change_vote(participant)
+            vote.change_vote(participant, '...')
         else:
             vote.save()
         chat.send_text(
