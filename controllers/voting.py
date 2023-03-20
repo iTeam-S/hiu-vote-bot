@@ -88,7 +88,7 @@ def comment_vote(sender_id, yes, participant_id, update=False, **ext):
         vote = Vote(voter, participant)
         if update:
             vote.refresh()
-            vote.change_vote(participant, '...')
+            vote.change_vote(participant, "...")
         else:
             vote.save()
         chat.send_text(
@@ -120,7 +120,7 @@ def save_vote(sender_id, cmd, participant_id, update=False, **ext):
 @ampalibe.command("/contre_vote")
 def contre_vote(sender_id, participant_id, **ext):
     voter = Voter.from_fb_id(sender_id)
-    if not voter:
+    if not voter or not voter.vote:
         chat.send_text(
             sender_id,
             "Mila misafidy ekipa tohanina aloha vao afaka mazaka ny ekipa" " hafa...",
